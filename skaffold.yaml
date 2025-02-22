@@ -1,0 +1,17 @@
+apiVersion: skaffold/v4beta12
+kind: Config
+build:
+  artifacts:
+  - image: entity-service
+    custom:
+      buildCommand: ./mvnw spring-boot:build-image
+deploy:
+  helm:
+    releases:
+    # - name: strimzi-kafka-operator
+    #   remoteChart: oci://quay.io/strimzi-helm/strimzi-kafka-operator
+    - name: entity-db
+      remoteChart: oci://registry-1.docker.io/bitnamicharts/postgresql
+manifests:
+  rawYaml:
+    - ./k8s/deployment.yaml
